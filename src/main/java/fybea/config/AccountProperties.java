@@ -9,4 +9,12 @@ public class AccountProperties {
     private int moneyAmount;
     @Value("${account.transfer-commission")
     private float commission;
+
+    public int getMoneyAmount() {
+        return moneyAmount;
+    }
+
+    public float getCommission() {
+        return commission;
+    }
 }
