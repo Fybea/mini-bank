@@ -18,11 +18,11 @@ public class UserService {
     public void createUser(String login) {
         id++;
         for (Map.Entry<Integer, User> entry : userMap.entrySet()) {
-            if (entry.getValue().getLogin().equals(login)) {
-                throw new IllegalArgumentException("User with this name: %s, already exist".formatted(login));
+            if (entry.getValue().getLogin().equals(login.toLowerCase())) {
+                throw new IllegalArgumentException("User with this name: %s, already exist".formatted(login.toLowerCase()));
             }
         }
-        User user = new User(id, login, new ArrayList<>());
+        User user = new User(id, login.toLowerCase(), new ArrayList<>());
         System.out.println("User created");
         userMap.put(user.getId(), user);
     }
