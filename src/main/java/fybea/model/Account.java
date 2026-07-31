@@ -34,4 +34,13 @@ public class Account {
     public void setMoneyAmount(int moneyAmount) {
         this.moneyAmount = moneyAmount;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", moneyAmount=" + moneyAmount +
+                '}';
+    }
 }

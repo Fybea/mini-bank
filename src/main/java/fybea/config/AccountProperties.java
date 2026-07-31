@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AccountProperties {
-    @Value("${account.default-amount")
+    @Value("${account.default-amount}")
     private int moneyAmount;
-    @Value("${account.transfer-commission")
+    @Value("${account.transfer-commission}")
     private float commission;
 
     public int getMoneyAmount() {

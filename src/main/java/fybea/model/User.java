@@ -13,6 +13,10 @@ public class User {
         this.accountList = accountList;
     }
 
+    public User() {
+
+    }
+
     public int getId() {
         return id;
     }
@@ -35,5 +39,14 @@ public class User {
 
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", accountList=" + accountList +
+                '}';
     }
 }
