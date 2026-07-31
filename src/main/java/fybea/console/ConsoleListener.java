@@ -59,6 +59,11 @@ public class ConsoleListener {
             if (Objects.equals(command, "ACCOUNT_MAP")) {
                 accountService.printAccount();
             }
+            if (Objects.equals(command, "ACCOUNT_CLOSE")) {
+                System.out.println("Enter account id: ");
+                int id = Integer.parseInt(sc.nextLine());
+                accountService.accountClose(id);
+            }
             if (Objects.equals(command, "EXIT")) {
                 break;
             }

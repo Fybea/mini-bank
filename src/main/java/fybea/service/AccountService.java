@@ -62,21 +62,32 @@ public class AccountService {
     public void accountTransfer(int fromId, int toId, int moneyAmount) {
         Account fromAccount = accountMap.get(fromId);
         Account toAccount = accountMap.get(toId);
-        if (fromAccount.getId() == toAccount.getId()) {
-            toAccount.setMoneyAmount(toAccount.getMoneyAmount() + moneyAmount);
-            fromAccount.setMoneyAmount(fromAccount.getMoneyAmount() - moneyAmount);
-        } else {
-            toAccount.setMoneyAmount((int) (moneyAmount * accountProperties.getCommission()));
-            fromAccount.setMoneyAmount(fromAccount.getMoneyAmount() - moneyAmount);
-        }
+        toAccount.setMoneyAmount((int) (toAccount.getMoneyAmount() + moneyAmount * (1 - accountProperties.getCommission())));
+        fromAccount.setMoneyAmount(fromAccount.getMoneyAmount() - moneyAmount);
     }
 
-    public void akk(int id) {
-        Account account = accountMap.get(id);
-        if (accountMap.size() == 1) {
-            throw new RuntimeException("Нельзя закрыть счет, у вас только один счет");
-        } else {
-
+    public void accountClose(int id) {
+        for (Map.Entry<Integer, Account> entry : accountMap.entrySet()) {
+            if (entry.getValue().getId() == id) {
+                Account account = entry.getValue();
+                User user = userService.showUser(account.getUserId());
+                List<Account> accountList = user.getAccountList();
+                if (accountList.size() > 1) {
+                    int toRemove = 0;
+                    for (int i = 0; i < accountList.size(); i++) {
+                        if (accountList.get(i).getId() == id) {
+                            toRemove = i;
+                        }
+                    }
+                    int temp = account.getMoneyAmount();
+                    account.setMoneyAmount(0);
+                    accountList.remove(accountList.get(toRemove));
+                    List<Account> sorted = accountList.stream().sorted().toList();
+                    sorted.get(0).setMoneyAmount(temp + sorted.get(0).getMoneyAmount());
+                    accountMap.remove(id);
+                }
+                System.out.println("Аккаунт успешно закрыт");
+            }
         }
     }
 }
