@@ -13,10 +13,6 @@ public class User {
         this.accountList = accountList;
     }
 
-    public User() {
-
-    }
-
     public int getId() {
         return id;
     }

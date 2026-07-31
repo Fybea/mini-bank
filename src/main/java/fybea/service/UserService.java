@@ -5,28 +5,26 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public class UserService {
     private final Map<Integer, User> userMap;
+    private int id = 0;
 
     public UserService(Map<Integer, User> userMap) {
         this.userMap = userMap;
     }
 
-    public User createUser(String login) {
+    public void createUser(String login) {
+        id++;
         for (Map.Entry<Integer, User> entry : userMap.entrySet()) {
             if (entry.getValue().getLogin().equals(login)) {
-                System.out.println("Пользователь с таким именем уже существует, повторите команду.");
-                return null;
+                throw new IllegalArgumentException("User with this name: %s, already exist".formatted(login));
             }
         }
-        User user = new User(ThreadLocalRandom.current().nextInt(1, 101), login, new ArrayList<>()); // РЕАЛИЗОВАТЬ ID
+        User user = new User(id, login, new ArrayList<>());
         System.out.println("User created");
         userMap.put(user.getId(), user);
-        System.out.println(user.getId());
-        return user;
     }
 
     public void showAllUsers() {
@@ -36,6 +34,9 @@ public class UserService {
     }
 
     public User showUser(int userId) {
-     return userMap.get(userId);
+        if (!userMap.containsKey(userId)) {
+            throw new IllegalArgumentException("User with this id: %s, not exist".formatted(userId));
+        }
+        return userMap.get(userId);
     }
 }
